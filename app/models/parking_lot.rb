@@ -45,8 +45,22 @@ class ParkingLot
                 end
                 break
             end
+            break
         end
         vehicles << vehicle
-        "Tic_#{vehicle.registration_no}_#{vehicle.ticket.floor_no}__#{vehicle.ticket.slot_no}"
+        "Tic_#{vehicle.registration_no}_#{vehicle.ticket.floor_no}_#{vehicle.ticket.slot_no}"
+    end
+
+    def unpark_vehicle(ticket)
+        floor_no = ticket.split("_")[2]
+        slot_no = ticket.split("_")[3]
+        floor = floor_slot_mp.select{|key,_| key.id == floor_no.to_i}
+        @floor_slot_mp.each do |key,value|
+            if key.id == floor_no.to_i
+                value.each do |slots|
+                    slots.isEmpty = true if slots.id == slot_no.to_i
+                end
+            end
+        end
     end
 end
